@@ -1,5 +1,5 @@
 {
-  "name": "next-with-pixi",
+  "name": "next-with-phaser",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -9,8 +9,7 @@
   },
   "dependencies": {
     "next": "^6.1.1",
-    "pixi-spine": "^1.5.16",
-    "pixi.js": "^4.8.1",
+    "phaser": "^3.11.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "web3": "^1.0.0-beta.34"

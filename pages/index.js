@@ -1,10 +1,10 @@
 import dynamic from 'next/dynamic'
-const Pixi = dynamic(import('../components/Pixi'), {ssr: false})
+const Game = dynamic(import('../components/Phaser'), {ssr: false})
 
 export default () => {
   return (
     <div>
-      <Pixi />
+      <Game />
     </div>
   )
 }
