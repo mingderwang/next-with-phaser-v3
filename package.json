@@ -9,8 +9,10 @@
     "export": "next export"
   },
   "dependencies": {
+    "@orange-games/phaser-nineslice": "^2.0.1",
     "next": "^6.1.1",
     "phaser": "^3.11.0",
+    "phaser3-weapon-plugin": "^1.0.0-beta.1",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "web3": "^1.0.0-beta.34"

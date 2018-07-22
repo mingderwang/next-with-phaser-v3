@@ -15,8 +15,6 @@ class Web3console extends React.Component {
     }
 
     componentWillMount() {
-        console.log(this.web3);
-        console.log(Web3);
        var web3;
         if (typeof Web3 !== 'undefined') { 
             web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider("http://localhost:8545")); 
