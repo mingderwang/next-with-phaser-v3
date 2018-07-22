@@ -10,11 +10,9 @@ export default class MyDocument extends Document {
     return (
       <html>
         <Head>
-        <title>Hello Ming2</title>
-          <link rel='stylesheet' href='/_next/static/style.css' />
+        <title>Hello Phaser3</title>
         </Head>
         <body>
-        <script src="components/SamplePlugin.js"></script>
           <Main />
           <NextScript />
         </body>
