@@ -14,10 +14,13 @@ class PhaserContainer extends React.Component {
   componentDidMount () {
     var config = {
       type: Phaser.AUTO,
-      width: 800,
-      height: 600,
+      width: window.screen.availWidth,
+      height: window.screen.availHeight,
       physics: {
-        default: 'arcade'
+        default: 'arcade',
+        arcade: {
+          debug: false
+        }
       },
       scene: {
         preload: preload,
@@ -41,24 +44,19 @@ class PhaserContainer extends React.Component {
     }
 
     function create () {
-      console.log(this.weapons)
-      //  Creates 1 single bullet, using the 'bullet' graphic
-      this.weapon = this.weapons.add(1, 'bullet')
+      console.log(this.weapons);
+      //  Creates 30 bullets, using the 'bullet' graphic
+      this.weapon = this.weapons.add(30, 'bullet')
 
-      // Enable physics debugging for the bullets
-      this.weapon.debugPhysics = true
+      this.weapon.bulletKillType = WeaponPlugin.consts.KILL_LIFESPAN
+      this.weapon.bulletLifespan = 2000
 
-      //  The bullet will be automatically killed when it leaves the world bounds
-      console.log(`setting bulletKillType`)
-      this.weapon.bulletKillType = WeaponPlugin.consts.KILL_WORLD_BOUNDS
+      this.weapon.fireRate = 100
 
-      //  Because our bullet is drawn facing up, we need to offset its rotation:
-      this.weapon.bulletAngleOffset = 90
+      //  Wrap bullets around the world bounds to the opposite side
+      this.weapon.bulletWorldWrap = true
 
-      //  The speed at which the bullet is fired
-      this.weapon.bulletSpeed = 400
-
-      this.sprite = this.add.sprite(320, 500, 'ship')
+      this.sprite = this.add.sprite(window.screen.availWidth/2, window.screen.availHeight/2,  'ship')
 
       this.physics.add.existing(this.sprite)
 
@@ -66,23 +64,39 @@ class PhaserContainer extends React.Component {
       this.sprite.body.maxVelocity.set(200)
 
       //  Tell the Weapon to track the 'player' Sprite
-      this.weapon.trackSprite(this.sprite)
+      //  With no offsets from the position
+      this.weapon.trackSprite(this.sprite, 0, 0, true)
 
       this.cursors = this.input.keyboard.createCursorKeys()
     }
- 
+
     function update () {
-      this.sprite.body.velocity.x = 0
+      if (this.cursors.up.isDown) {
+        /* this.physics.arcade.accelerationFromRotation(this.sprite.rotation, 300, this.sprite.body.acceleration);
+        this.sprite.body.acceleration.x
+
+           /* if (speed === undefined) { speed = 60; }
+            point = point || new Phaser.Point();
+
+            return point.setToPolar(rotation, speed); */
+        this.sprite.body.acceleration.setToPolar(this.sprite.rotation, 300)
+      } else {
+        this.sprite.body.acceleration.set(0)
+      }
 
       if (this.cursors.left.isDown) {
-        this.sprite.body.velocity.x = -200
+        this.sprite.body.angularVelocity = -300
       } else if (this.cursors.right.isDown) {
-        this.sprite.body.velocity.x = 200
+        this.sprite.body.angularVelocity = 300
+      } else {
+        this.sprite.body.angularVelocity = 0
       }
 
       if (this.cursors.space.isDown) {
         this.weapon.fire()
       }
+
+      this.physics.world.wrap(this.sprite, 16)
     }
   }
   render () {

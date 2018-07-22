@@ -10,7 +10,8 @@ export default class MyDocument extends Document {
     return (
       <html>
         <Head>
-        <title>Hello Phaser3</title>
+        <title>Phaser3</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
         </Head>
         <body>
           <Main />
