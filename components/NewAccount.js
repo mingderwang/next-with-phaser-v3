@@ -2,7 +2,6 @@ import React from 'react';
 import Web3 from 'web3';
 
 class Web3console extends React.Component {
-    web3 = null;
 
     constructor() {
         super();
@@ -16,7 +15,13 @@ class Web3console extends React.Component {
     }
 
     componentWillMount() {
-        web3 = new Web3(Web3.givenProvider || 'http://localhost:8545');
+       var web3;
+        if (typeof Web3 !== 'undefined') { 
+            web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider("http://localhost:8545")); 
+            console.log(this.web3); 
+        } else {
+            console.log('no web3.js import'); 
+        }
         this.web3 = web3;
         var newAddress = web3.eth.accounts.create(web3.utils.randomHex(32));
         this.setState({ accounts: newAddress.address, privateKey: newAddress.privateKey });
@@ -24,7 +29,7 @@ class Web3console extends React.Component {
     }
 
     handleClick() {
-        console.log(this.web3)
+        this.web3.eth.getAccounts().then(console.log);
         var newAddress = this.web3.eth.accounts.create(this.web3.utils.randomHex(32));
         this.setState({ accounts: newAddress.address, privateKey: newAddress.privateKey });
     }
